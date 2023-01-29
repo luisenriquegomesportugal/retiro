@@ -1,7 +1,7 @@
 import React from 'react'
 import PrimeReact, { addLocale } from 'primereact/api'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from "react-router-dom"
+import { HashRouter } from "react-router-dom"
 import { App } from './App'
 
 import "primereact/resources/primereact.min.css"
@@ -24,8 +24,8 @@ addLocale('pt-BR', {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter basename='/retiro'>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 )

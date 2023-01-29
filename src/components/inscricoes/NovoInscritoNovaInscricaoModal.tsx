@@ -8,6 +8,7 @@ import { Toast } from 'primereact/toast';
 import { ToastContext } from '../../App';
 import { FileUpload } from 'primereact/fileupload';
 import { validateFile } from '../../service/storage';
+import cargos from './../../cargos.json'
 
 interface Props {
     numeroRestanteDeParcelas: number,
@@ -168,13 +169,6 @@ export const NovoInscritoNovaInscricaoModal: FC<Props> = ({ numeroRestanteDeParc
         { "label": "3 parcelas", "code": 3 },
     ]
         .filter(parcela => numeroRestanteDeParcelas > 3 || parcela.code <= numeroRestanteDeParcelas);
-
-    const cargos = [
-        "Supervisor",
-        "Lider",
-        "Núcleo",
-        "Membro"
-    ];
 
     return <Fragment>
         <Button label="Selecionar inscrito" icon="pi pi-plus" className="p-button-raised py-2" onClick={() => abrirModal()} disabled={numeroRestanteDeParcelas < 1} />
