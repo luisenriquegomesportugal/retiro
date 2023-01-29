@@ -10,6 +10,7 @@ import { DadosNovaInscricao } from '../../pages/NovaInscricao';
 import { Toast } from 'primereact/toast';
 import { ToastContext } from '../../App';
 import { validateFile } from '../../service/storage';
+import pix from "./../../assets/pix.png"
 
 interface Props {
     avancar: (dados: DadosNovaInscricao) => void
@@ -89,7 +90,7 @@ export const ComprovanteNovaInscricao: FC<Props> = ({ avancar }) => {
                                 luisenriquegomesportugal@gmail.com
                             </p>
                             <Divider className="w-10rem my-5 align-self-center" />
-                            <img src="/pix.png" alt="Pix das Inscrições" className="w-20rem mb-5 align-self-center" />
+                            <img src={pix} alt="Pix das Inscrições" className="w-20rem mb-5 align-self-center" />
                         </div>
                     </OverlayPanel>
                 </label>
