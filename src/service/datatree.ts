@@ -9,14 +9,18 @@ export const parseInscritos = (data: any): TreeNode[] => {
             let rede = celulasJson.find(c => c.code == celula);
             let children = Object
                 .values(inscritos as Inscrito[]);
+            
+            let nome = celula == 'supervisores'
+                ? "Supervisores"
+                : `Refúgio ${celula}`;
 
             return {
-                "key": `R${celula}`,
+                "key": `${nome}`,
                 "data": {
-                    "nome": `Refúgio ${celula}`,
+                    "nome": nome,
                     "rede": rede?.rede
                 },
-                "children": parseChildren(rede?.rede, children)
+                "children": parseChildren(nome, children)
             };
         })
 
@@ -26,7 +30,7 @@ export const parseInscritos = (data: any): TreeNode[] => {
 const parseChildren = (rede: any, inscritos: Inscrito[]) => {
     return inscritos.map(inscrito => {
         return {
-            "key": `${rede} ${inscrito.celula} ${inscrito.cpf}`,
+            "key": `${rede} ${inscrito.cpf}`,
             "data": inscrito
         };
     })

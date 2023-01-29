@@ -20,15 +20,6 @@ const Inscritos: FC<{children?: any}> = ({children}) => {
         });
     }, []);
 
-    const nomeBodyTemplate = (body: any, _) => {
-        let { data }: { data: any } = body;
-
-        return <Fragment>
-            {data.nome}
-            {data.lider && <Badge value="Lider" className="ml-2"></Badge>}
-        </Fragment>;
-    }
-
     return <TreeTable
         paginator
         rows={5}
@@ -45,8 +36,7 @@ const Inscritos: FC<{children?: any}> = ({children}) => {
             expander
             field="nome"
             header="Nome"
-            className="text-2xl py-3"
-            body={nomeBodyTemplate}>
+            className="text-2xl py-3">
         </Column>
         {children}
     </TreeTable>;
