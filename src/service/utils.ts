@@ -26,7 +26,7 @@ export const calcIdade = (dtNasc?: string) => {
 
 export const calcParcelas = (parcelas?: Parcela[]) => {
     if (!parcelas) {
-        return '';
+        return 0;
     }
 
     return parcelas.reduce((pt, p) => pt + Number.parseInt(p.quantidade), 0);

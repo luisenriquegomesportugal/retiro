@@ -31,7 +31,7 @@ export const parseInscritos = (data: any): TreeNode[] => {
 }
 
 const parseChildren = (rede: any, inscritos: Inscrito[]) => {
-    return inscritos.map((inscrito, i) => {
+    let _inscritos = inscritos.map((inscrito, i) => {
         return {
             "key": `${rede} ${inscrito.cpf}`,
             "data": {
@@ -39,7 +39,10 @@ const parseChildren = (rede: any, inscritos: Inscrito[]) => {
                 sort: cargos.indexOf(inscrito.cargo!)
             }
         };
-    })
+    });
+
+    _inscritos.sort(sortParse);
+    return _inscritos;
 }
 
 const sortParse = (a: TreeNode, b: TreeNode) => {

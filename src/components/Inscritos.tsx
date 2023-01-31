@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, ReactNode, useEffect, useState } from 'react';
 import { Column } from 'primereact/column';
 import { TreeTable } from 'primereact/treetable';
 import { InputText } from 'primereact/inputtext';
@@ -7,8 +7,9 @@ import TreeNode from 'primereact/treenode';
 import { onValue, ref } from 'firebase/database';
 import { database } from '../config/firebase';
 import { parseInscritos } from '../service/datatree';
+import { Inscrito } from '../types/Inscrito';
 
-const Inscritos: FC<{children?: any}> = ({children}) => {
+const Inscritos: FC<{children?: any, header?: (Inscritos: TreeNode[]) => ReactNode}> = ({children, header}) => {
     const [nodes, setNodes] = useState<TreeNode[]>([]);
     const [globalFilter, setGlobalFilter] = useState<string | null>(null);
 
@@ -26,17 +27,20 @@ const Inscritos: FC<{children?: any}> = ({children}) => {
         value={nodes}
         globalFilter={globalFilter}
         emptyMessage="Não foi encontrado resultado para busca"
-        header={<div className="flex justify-content-between align-items-center">
+        header={<div className="flex flex-column sm:flex-row justify-content-between align-items-center">
             <div className="p-input-icon-left">
                 <i className="pi pi-search"></i>
                 <InputText type="search" onInput={e => setGlobalFilter(e.target.value)} placeholder="Pesquisa" />
             </div>
+            {header?.(nodes)}
         </div>}>
         <Column
             expander
             field="nome"
             header="Nome"
-            className="text-2xl py-3">
+            headerClassName="w-full" 
+            bodyClassName="w-full"
+            className="text-2xl py-3 w-full">
         </Column>
         {children}
     </TreeTable>;
