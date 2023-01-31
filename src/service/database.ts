@@ -3,17 +3,31 @@ import { database } from "../config/firebase";
 import { Inscrito, Parcela } from "../types/Inscrito";
 import { saveDocumentos } from "./storage";
 
+export const consultarPermitirInscricao = async () => {
+    let path = `configuracao/permitirInscricao`;
+    let permissaoRef = ref(database, path);
+    let permissao = await get(permissaoRef);
+
+    return permissao.exists()
+        && permissao.val() as boolean;
+}
+
+export const consultaInscrito = async (inscrito: Inscrito) => {
+    let celularede = typeof inscrito.celula === 'string'
+        ? 'supervisores'
+        : inscrito.celula;
+
+    let cpf = inscrito.cpf.replaceAll(/[.-]/g, "");
+    let path = `inscritos/${celularede}/${cpf}`;
+
+    let inscritoRef = ref(database, path);
+    return await get(inscritoRef);
+}
+
 export const saveInscritos = async (inscritos: Inscrito[], comprovante: any) => {
     for (let inscrito of inscritos) {
-        let celularede = typeof inscrito.celula === 'string'
-            ? 'supervisores'
-            : inscrito.celula;
+        let inscritoGet = await consultaInscrito(inscrito);
 
-        let cpf = inscrito.cpf.replaceAll(/[.-]/g, "");
-        let path = `inscritos/${celularede}/${cpf}`;
-
-        let inscritoRef = ref(database, path);
-        let inscritoGet = await get(inscritoRef);
         if (!inscritoGet.exists()) {
             inscrito = await saveDocumentos(inscrito);
             inscrito.parcelas = [{
