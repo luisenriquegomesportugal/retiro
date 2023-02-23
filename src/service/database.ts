@@ -12,15 +12,17 @@ export const consultarPermitirInscricao = async () => {
         && permissao.val() as boolean;
 }
 
-export const consultaInscrito = async (inscrito: Inscrito) => {
+const getInscritoPath = (inscrito: Inscrito) => {
     let celularede = typeof inscrito.celula === 'string'
         ? 'supervisores'
         : inscrito.celula;
 
     let cpf = inscrito.cpf.replaceAll(/[.-]/g, "");
-    let path = `inscritos/${celularede}/${cpf}`;
+    return `inscritos/${celularede}/${cpf}`;
+}
 
-    let inscritoRef = ref(database, path);
+export const consultaInscrito = async (inscrito: Inscrito) => {
+    let inscritoRef = ref(database, getInscritoPath(inscrito));
     return await get(inscritoRef);
 }
 
@@ -49,7 +51,7 @@ export const saveInscritos = async (inscritos: Inscrito[], comprovante: any) => 
             }
         }
 
-        let inscritoParcelaRef = ref(database, path);
+        let inscritoParcelaRef = ref(database, getInscritoPath(inscrito));
         await set(inscritoParcelaRef, inscrito);
     }
 }
