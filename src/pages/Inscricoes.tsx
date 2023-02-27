@@ -46,6 +46,15 @@ const Inscricoes: FC = () => {
         </span>;
     }
 
+    const calcCpf = (tree: TreeNode) => {
+        if (tree.data && tree.data.cpf) {
+            let cpf = tree.data.cpf as string;
+            return cpf.slice(0, 7) + ".***-**";
+        }
+
+        return "";
+    }
+
     return <section>
         <div className="flex justify-content-between align-items-center">
             <h2>Inscrições</h2>
@@ -61,9 +70,17 @@ const Inscricoes: FC = () => {
         <Card>
             <Inscritos header={buildTotalHeader}>
                 <Column
+                    field="cpf"
+                    header="CPF"
+                    headerClassName="sm-invisible w-12rem"
+                    bodyClassName="sm-invisible w-12rem"
+                    className="text-2xl py-3 w-12rem"
+                    body={linha => calcCpf(linha)}>
+                </Column>
+                <Column
                     field="sexo"
-                    header="Sexo" 
-                    headerClassName="sm-invisible w-8rem" 
+                    header="Sexo"
+                    headerClassName="sm-invisible w-8rem"
                     bodyClassName="sm-invisible w-8rem"
                     className="text-2xl py-3 w-8rem">
                 </Column>
