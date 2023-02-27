@@ -18,13 +18,13 @@ interface Props {
 }
 
 const celulas = [
-    {
-        label: 'Supervisores', code: 'supervisores',
-        items: [
-            {"label": "Rede 12", "code": 'Rede 12'},
-            {"label": "Rede 17", "code": 'Rede 17'},
-        ]
-    },
+    // {
+    //     label: 'Supervisores', code: 'supervisores',
+    //     items: [
+    //         {"label": "Rede 12", "code": 'Rede 12'},
+    //         {"label": "Rede 17", "code": 'Rede 17'},
+    //     ]
+    // },
     {
         label: 'Rede 12', code: 'rede12',
         items: [
@@ -254,7 +254,7 @@ export const NovoInscritoNovaInscricaoModal: FC<Props> = ({numeroRestanteDeParce
             </div>
             <div className="formgrid grid pb-2">
                 <div className="field col-12 md:col-3">
-                    <label htmlFor="celula" className="text-2xl font-light">Rede/Célula *</label>
+                    <label htmlFor="celula" className="text-2xl font-light">Célula *</label>
                     <Dropdown inputId="celula" options={celulas} value={celulaRef} onChange={e => setCelulaRef(e.value)}
                               optionLabel="label" optionValue="code" optionGroupLabel="label"
                               optionGroupChildren="items" itemTemplate={optionTemplate}
