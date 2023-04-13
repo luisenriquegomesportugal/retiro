@@ -11,15 +11,16 @@ export const parseInscritos = (data: any): TreeNode[] => {
             let children = Object
                 .values(inscritos as Inscrito[]);
 
-            let nome = celula == 'supervisores'
-                ? "Supervisores"
-                : `Refúgio ${celula}`;
+            let nome = /^\d+$/.test(celula)
+                ? `Refúgio ${celula}`
+                : `${celula[0].toUpperCase()}${celula.slice(1)}s`;
 
             return {
                 "key": `${nome}`,
                 "data": {
                     "nome": nome,
                     "rede": rede?.rede,
+                    "convidado": !(/^\d+$/.test(celula)),
                     "sort": celula == 'supervisores' ? 0 : 1
                 },
                 "children": parseChildren(nome, children)

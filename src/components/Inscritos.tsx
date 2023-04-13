@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { Column } from 'primereact/column';
 import { TreeTable } from 'primereact/treetable';
 import { InputText } from 'primereact/inputtext';
@@ -8,6 +8,7 @@ import { onValue, ref } from 'firebase/database';
 import { database } from '../config/firebase';
 import { parseInscritos } from '../service/datatree';
 import { Inscrito } from '../types/Inscrito';
+import * as React from "react";
 
 const Inscritos: FC<{children?: any, header?: (Inscritos: TreeNode[]) => ReactNode}> = ({children, header}) => {
     const [nodes, setNodes] = useState<TreeNode[]>([]);
@@ -30,7 +31,7 @@ const Inscritos: FC<{children?: any, header?: (Inscritos: TreeNode[]) => ReactNo
         header={<div className="flex flex-column sm:flex-row justify-content-between align-items-center">
             <div className="p-input-icon-left">
                 <i className="pi pi-search"></i>
-                <InputText type="search" onInput={e => setGlobalFilter(e.target.value)} placeholder="Pesquisa" />
+                <InputText type="search" onInput={(e: React.FormEvent<HTMLInputElement>) => setGlobalFilter(e.currentTarget.value)} placeholder="Pesquisa" />
             </div>
             {header?.(nodes)}
         </div>}>

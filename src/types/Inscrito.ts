@@ -5,10 +5,19 @@ export type Parcela = {
     comprovante: string
 }
 
+export type Venda = {
+    quantidade?: string,
+    valor: number,
+    produto: string,
+    data?: string,
+
+    pago?: boolean
+}
+
 export interface Inscrito {
-    celula: string | number;
+    celula?: string | number;
     cpf: string;
-    parcelas: string | Parcela[];
+    parcelas?: string | Parcela[];
     cargo?: Cargos;
     nome?: string;
     sexo?: string;
@@ -16,4 +25,6 @@ export interface Inscrito {
     telefone?: string;
     observacao?: string;
     documentos?: string[];
+    convidado?: boolean;
+    vendinha?: Venda[];
 }
