@@ -1,4 +1,4 @@
-import {FC, Fragment, useState} from 'react';
+import {FC, Fragment, useEffect, useMemo, useState} from 'react';
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
 import {Inscrito, Venda} from '../../types/Inscrito';
@@ -11,19 +11,32 @@ import {FieldValues} from "react-hook-form/dist/types/fields";
 
 export const NovaCompraVendinhaModal: FC<{ inscrito: Inscrito, produtos: Produto[] }> = ({inscrito, produtos}) => {
     const [visible, setVisible] = useState(false);
-    const {control, register, handleSubmit, formState: {errors}} = useForm<{compras: Venda[]}>();
+    const [totalGeral, setTotalGeral] = useState(0);
+    const {control, register, handleSubmit, watch, formState: {errors}} = useForm<{ compras: Venda[] }>();
     const {fields, append, remove} = useFieldArray({
         control,
         name: "compras",
     });
 
+    useEffect(() => {
+        const subscription = watch((value) => {
+            let totalGeral = value.compras?.reduce((a, c) => {
+                return a + (c?.valor! * (c?.quantidade ? Number.parseInt(c.quantidade) : 0));
+            }, 0.0);
+
+            setTotalGeral(totalGeral!);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [watch]);
+
     const realizarCompra = (pago = true) => async (data: FieldValues) => {
         let compras = data.compras
             .filter((compra: Venda) => compra.quantidade && /^\d+$/.test(compra.quantidade))
             .map((compra: Venda) => ({
-            ...compra,
-            pago
-        }));
+                ...compra,
+                pago
+            }));
 
         await finalizarCompra(inscrito, compras);
 
@@ -52,7 +65,10 @@ export const NovaCompraVendinhaModal: FC<{ inscrito: Inscrito, produtos: Produto
             visible={visible}
             onHide={hideModal}
             style={{width: '90%', maxWidth: '75rem'}}
-            header={<h2>Total {new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0)}</h2>}
+            header={<h2>Total {new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(totalGeral)}</h2>}
             footer={<div className="flex justify-content-end align-items-center">
                 <Button
                     label="Pagar agora"
@@ -92,7 +108,8 @@ export const NovaCompraVendinhaModal: FC<{ inscrito: Inscrito, produtos: Produto
                                 {...register(`compras.${rowIndex}.quantidade`, {
                                     validate: value => !value || value && /^\d+$/.test(value)
                                 })}/>
-                            {errors?.compras?.[rowIndex] && <small className="p-error">Digite uma quantidade fechada</small>}
+                            {errors?.compras?.[rowIndex] &&
+                                <small className="p-error">Digite uma quantidade fechada</small>}
                         </div>}></Column>
                 </DataTable>
             </form>

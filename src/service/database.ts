@@ -13,6 +13,15 @@ export const consultarPermitirInscricao = async () => {
         && permissao.val() as boolean;
 }
 
+export const consultarPermitirVendinha = async () => {
+    let path = `configuracao/permitirVendinha`;
+    let permissaoRef = ref(database, path);
+    let permissao = await get(permissaoRef);
+
+    return permissao.exists()
+        && permissao.val() as boolean;
+}
+
 export const consultarProdutos = async () => {
     let produtosRef = ref(database, 'produtos');
     let produtos = await get(produtosRef);
