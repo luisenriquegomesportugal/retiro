@@ -12,7 +12,6 @@ export const Menu: React.FC = () => {
     let items = [
         { label: 'Dashboard', icon: PrimeIcons.HOME, to: '/dashboard' },
         { label: 'Inscrições', icon: PrimeIcons.USER_EDIT, to: '/inscricoes' },
-        { label: 'Vendinha', icon: PrimeIcons.SHOPPING_BAG, to: '/vendinha' },
     ];
 
     return <aside className="m-5 flex flex-column">
